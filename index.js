@@ -90,6 +90,26 @@ service.get('/campers/:session_num', (request, response) => {
   });
 });
 
+service.get('/', (request, response) => {
+
+  const query = 'SELECT * FROM campers WHERE is_deleted = 0'
+  connection.query(query, parameters, (error, rows) => {
+    if (error) {
+      response.status(500);
+      response.json({
+        ok: false,
+        results: error.message,
+      });
+    } else {
+      const memories = rows.map(rowToMemory);
+      response.json({
+        ok: true,
+        results: rows.map(rowToMemory),
+      });
+    }
+  });
+});
+
 service.patch('/camper/:name', (request, response) => {
   const parameters = [
     request.body.session_num,
