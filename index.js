@@ -16,6 +16,12 @@ connection.connect(error => {
 // TODO: issue queries.
 service.use(express.json());
 
+
+service.get('/report.html', (request, response) => {
+    response.sendFile(path.join(__dirname, '/report.html'));
+});
+
+
 service.post('/camper', (request, response) => {
   if (request.body.hasOwnProperty('name') &&
       request.body.hasOwnProperty('session_num') &&
