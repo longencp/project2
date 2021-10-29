@@ -53,7 +53,79 @@ service.post('/camper', (request, response) => {
     });
   }
 });
+function rowToMemory(row) {
+  return {
+    name: row.name,
+    session: row.session_num,
+    balance: row.balance,
+    concerns: row.concerns,
+  };
+}
+service.get('/campers/:session_num', (request, response) => {
+  const parameters = [
+    parseInt(request.params.session_num),
+  ];
 
+  const query = 'SELECT * FROM campers WHERE session_num = ? AND is_deleted = 0'
+  connection.query(query, parameters, (error, rows) => {
+    if (error) {
+      response.status(500);
+      response.json({
+        ok: false,
+        results: error.message,
+      });
+    } else {
+      const memories = rows.map(rowToMemory);
+      response.json({
+        ok: true,
+        results: rows.map(rowToMemory),
+      });
+    }
+  });
+});
+
+service.patch('/camper/:name', (request, response) => {
+  const parameters = [
+    request.body.session_num,
+    request.body.balance,
+    request.body.concerns,
+    request.params.name,
+  ];
+
+  const query = 'UPDATE campers SET session_num = ?, balance = ?, concerns = ? WHERE name = ?';
+  connection.query(query, parameters, (error, result) => {
+    if (error) {
+      response.status(404);
+      response.json({
+        ok: false,
+        results: error.message,
+      });
+    } else {
+      response.json({
+        ok: true,
+      });
+    }
+  });
+});
+
+service.delete('/camper/:name', (request, response) => {
+  const parameters = [request.params.name];
+
+  const query = 'UPDATE campers SET is_deleted = 1 WHERE name = ?';
+  connection.query(query, parameters, (error, result) => {
+    if (error) {
+      response.status(404);
+      response.json({
+        ok: false,
+        results: error.message,
+      });
+    } else {
+      response.json({
+        ok: true,
+      });
+    }
+  });
+});
 const port = 5001;
 service.listen(port, () => {
   console.log(`We're live in port ${port}!`);
