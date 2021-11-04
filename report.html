@@ -2,21 +2,41 @@
 <html lang="en">
 
 <body>
+  <h1>Report</h1>	
   <ol>
-     <li>My project is not a todo list, it is a registration system for a camp</li>
+     <li>My project is not a todo list, it is a registration system for a camp
+     	it allows campers to register with their name, session number, camp store balance, and any
+        concerns they may have</li>
      <li>This project uses MySQL</li>
      <li>This project provides an express-based service for interacting with the database</li>
-     <li>**The webservice does not currently work with port 8443</li>
+     <li>This web service is available via https://project2.cory-longenecker.me:8443/</li>
      <li>The endpoints and parameters are appropriately named</li>
      <li>The web serice sends/recieves JSON files</li>
      <li>There is a post, get, patch, and delete endpoint in this webservice</li>
      <li>The database is directly accessible from the droplet and not outside, because of my use of ufw</li>
-     <li>I created an Nginx server, however I am not entirely sure if it is working</li>
+     <li>This service uses an Nginx server which allows global, encrypted access</li>
      <li>The web service supports cross-origin resource sharing using custom middleware and an options wildcard endpoint</li>
      <li>The web service used pm2 to stay running</li>
      <li>The service is stored in a Git repository shared with twodee</li>
      <li>The database's creation and schema scripts are included, but the passwords are not</li>
-     <li>The git repository shows commits of the project, although many were right before the due date, as I did not have much time to complete this assignment</li>
+     <li>The git repository shows several commits of the project</li>
      <li>This report is here</li>
   </ol>
+  <h1>Endpoints: </h1>
+  <h2>GET: https://project2.cory-longenecker.me:8443/<h2>
+  <p>Shows all of the contents of the database (names, session numbers, balance, and concerns)</p>
+  <h2>GET: https://project2.cory-longenecker.me:8443/campers/:session_num<h2>
+  <p>Shows all of the campers who are registered for that session using the "session_num" parameter</p>
+  <h2>POST: https://project2.cory-longenecker.me:8443/camper<h2>
+  <p>Allows the client to register a camper using a jason file like the one below:</p>
+  <pre>{
+  "name":"Cory",
+  "session":1,
+  "balance":2,
+  "concerns":"none"
+  }</pre>
+  <h2>PATCH: https://project2.cory-longenecker.me:8443/camper/:name<h2>
+  <p>Updates the balance of of a specific camper using the "name" parameter</p>
+  <h2>DELETE: https://project2.cory-longenecker.me:8443/camper/:name<h2>
+  <p>Deletes a specific camper using the "name" parameter</p>
 </body?

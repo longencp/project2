@@ -18,7 +18,7 @@ service.use(express.json());
 
 
 service.get('/report.html', (request, response) => {
-    response.sendFile(path.join(__dirname, '/report.html'));
+    response.sendFile('/report.html', { root: __dirname })
 });
 
 
@@ -93,7 +93,7 @@ service.get('/campers/:session_num', (request, response) => {
 service.get('/', (request, response) => {
 
   const query = 'SELECT * FROM campers WHERE is_deleted = 0'
-  connection.query(query, parameters, (error, rows) => {
+  connection.query(query, (error, rows) => {
     if (error) {
       response.status(500);
       response.json({
@@ -112,13 +112,13 @@ service.get('/', (request, response) => {
 
 service.patch('/camper/:name', (request, response) => {
   const parameters = [
-    request.body.session_num,
+  //  request.body.session_num,
     request.body.balance,
-    request.body.concerns,
+ //   request.body.concerns,
     request.params.name,
   ];
 
-  const query = 'UPDATE campers SET session_num = ?, balance = ?, concerns = ? WHERE name = ?';
+  const query = 'UPDATE campers SET balance = ? WHERE name = ?';
   connection.query(query, parameters, (error, result) => {
     if (error) {
       response.status(404);
